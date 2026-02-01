@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <type_traits>
 
-
 #include "enmach/common.hpp"
+#include "enmach/utils.hpp"
 
 #define EKMFLGDQVZNTOWYHXUSPAIBRCJ "\x04\x0a\x0c\x05\x0b\x06\x03\x10\x15\x19\x0d\x13\x0e\x16\x18\x07\x17\x14\x12\x0f\x00\x08\x01\x11\x02\x09"
 #define UWYGADFPVZBECKMTHXSLRINQOJ "\x14\x16\x18\x06\x00\x03\x05\x0f\x15\x19\x01\x04\x02\x0a\x0c\x13\x07\x17\x12\x0b\x11\x08\x0d\x10\x0e\x09"
@@ -99,9 +99,9 @@ namespace enmach
     constexpr auto setGrundstellung(T grundstellung) -> void
     {
       if constexpr (std::is_same_v<T, char>)
-        this->grundstellung_ = static_cast<std::uint8_t>(grundstellung - 'a');
+        this->grundstellung_ = static_cast<std::uint8_t>(to_lowercase_or_die(grundstellung) - 'a');
       else
-        this->grundstellung_ = static_cast<std::uint8_t>(grundstellung);
+        this->grundstellung_ = static_cast<std::uint8_t>(grundstellung % ETW.size());
       this->setInternalDifference();
     }
 
@@ -109,9 +109,9 @@ namespace enmach
     constexpr auto setRingstellung(T ringstellung) -> void
     {
       if constexpr (std::is_same_v<T, char>)
-        this->ringstellung_ = static_cast<std::uint8_t>(ringstellung - 'a');
+        this->ringstellung_ = static_cast<std::uint8_t>(to_lowercase_or_die(ringstellung) - 'a');
       else
-        this->ringstellung_ = static_cast<std::uint8_t>(ringstellung);
+        this->ringstellung_ = static_cast<std::uint8_t>(ringstellung % ETW.size());
       this->setInternalDifference();
     }
 

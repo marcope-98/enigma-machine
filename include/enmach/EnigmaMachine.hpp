@@ -45,8 +45,11 @@ namespace enmach
 
     [[nodiscard]] constexpr auto exec(char letter) -> char
     {
+      letter = to_lowercase_or_die(letter);
+
       letter             = this->plugboard(letter);
       std::uint8_t index = static_cast<std::uint8_t>(letter - 'a');
+
       index = this->forward_transformation(this->rotors, index);
       index = reflector.reflect(index);
       std::apply([&index](auto &&...args)
