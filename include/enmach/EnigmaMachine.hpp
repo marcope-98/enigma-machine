@@ -47,27 +47,39 @@ namespace enmach
     {
       letter             = this->plugboard(letter);
       std::uint8_t index = static_cast<std::uint8_t>(letter - 'a');
-      std::apply([&index](auto &&...args)
-                 { ((index = args.forward(index)), ...); }, this->rotors);
+      index = this->forward_transformation(this->rotors, index);
       index = reflector.reflect(index);
       std::apply([&index](auto &&...args)
-                 { ((index = args.inverse(index)), ...); }, reverse_tuple(this->rotors));
+                 { ((index = args.inverse(index)), ...); }, this->rotors);
       letter = static_cast<char>(index + 'a');
       letter = this->plugboard(letter);
       return letter;
     }
 
   private:
-    decltype(reverse_tuple(std::tuple<Rotor<RotorTags>...>{})) rotors;
-    Reflector<ReflectorTag>                                    reflector{};
-    Plugboard                                                  plugboard{};
+    std::tuple<Rotor<RotorTags>...> rotors;
+    Reflector<ReflectorTag> reflector{};
+    Plugboard               plugboard{};
+
+    template<class Tuple, std::size_t... Is>
+    constexpr static auto forward_transformation_impl(Tuple &&t, std::uint8_t index, std::index_sequence<Is...>) -> std::uint8_t
+    {
+      ((index = std::get<Config::N - 1 - Is>(t).forward(index)), ...);
+      return index;
+    }
+
+    template<class Tuple>
+    constexpr static auto forward_transformation(Tuple &&t, std::uint8_t index) -> std::uint8_t
+    {
+      return forward_transformation_impl(std::forward<Tuple>(t), index, std::make_index_sequence<Config::N>{});
+    }
 
     template<class Tuple, std::size_t... Is>
     constexpr static auto increment_rotors_impl(Tuple &&t, std::index_sequence<Is...>) -> void
     {
       auto           flag{true};
       constexpr bool has_zusatzwalze = (Set<rotor_tags::BETA, rotor_tags::GAMMA>::template is_in_set<RotorTags>() || ...);
-      ((flag = std::get<Is>(t).increment(flag, Is < Config::N - static_cast<std::size_t>(has_zusatzwalze) - 1)), ...);
+      ((flag = std::get<Config::N - 1 - Is>(t).increment(flag, Is < Config::N - static_cast<std::size_t>(has_zusatzwalze) - 1)), ...);
     }
 
     template<class Tuple>
@@ -79,7 +91,7 @@ namespace enmach
     template<class Tuple1, class Tuple2, std::size_t... Is>
     constexpr static auto assign_grundstellung_impl(Tuple1 &&t1, Tuple2 &&t2, std::index_sequence<Is...>) -> void
     {
-      (std::get<Config::N - Is - 1>(t1).setGrundstellung(std::get<Is>(t2)), ...);
+      (std::get<Is>(t1).setGrundstellung(std::get<Is>(t2)), ...);
     }
 
     template<class Tuple1, class Tuple2>
@@ -91,7 +103,7 @@ namespace enmach
     template<class Tuple1, class Tuple2, std::size_t... Is>
     constexpr static auto assign_ringstellung_impl(Tuple1 &&t1, Tuple2 &&t2, std::index_sequence<Is...>) -> void
     {
-      (std::get<Config::N - Is - 1>(t1).setRingstellung(std::get<Is>(t2)), ...);
+      (std::get<Is>(t1).setRingstellung(std::get<Is>(t2)), ...);
     }
 
     template<class Tuple1, class Tuple2>
