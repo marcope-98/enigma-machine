@@ -52,8 +52,8 @@ namespace enmach
 
       index = this->forward_transformation(this->rotors, index);
       index = reflector.reflect(index);
-      std::apply([&index](auto &&...args)
-                 { ((index = args.inverse(index)), ...); }, this->rotors);
+      index = this->inverse_transformation(this->rotors, index);
+
       letter = static_cast<char>(index + 'a');
       letter = this->plugboard(letter);
       return letter;
@@ -79,6 +79,18 @@ namespace enmach
 
     template<class Tuple, std::size_t... Is>
     constexpr static auto increment_rotors_impl(Tuple &&t, std::index_sequence<Is...>) -> void
+    constexpr static auto inverse_transformation_impl(Tuple &&t, std::uint8_t index, std::index_sequence<Is...>) noexcept -> std::uint8_t
+    {
+      ((index = std::get<Is>(t).inverse(index)), ...);
+      return index;
+    }
+
+    template<class Tuple>
+    constexpr static auto inverse_transformation(Tuple &&t, std::uint8_t index) noexcept -> std::uint8_t
+    {
+      return inverse_transformation_impl(std::forward<Tuple>(t), index, std::make_index_sequence<Config::N>{});
+    }
+
     {
       auto           flag{true};
       constexpr bool has_zusatzwalze = (Set<rotor_tags::BETA, rotor_tags::GAMMA>::template is_in_set<RotorTags>() || ...);
