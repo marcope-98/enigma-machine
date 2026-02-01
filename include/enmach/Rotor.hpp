@@ -71,7 +71,7 @@ namespace enmach
   struct Rotor
   {
   public:
-    [[nodiscard]] constexpr auto forward(std::uint8_t index) const -> std::uint8_t
+    [[nodiscard]] constexpr auto forward(std::uint8_t index) const noexcept -> std::uint8_t
     {
       index = (index + this->internal_difference) % enmach::ETW.size();
       index = RotorTag::fvalue[index];
@@ -79,7 +79,7 @@ namespace enmach
       return index;
     }
 
-    [[nodiscard]] constexpr auto inverse(std::uint8_t index) const -> std::uint8_t
+    [[nodiscard]] constexpr auto inverse(std::uint8_t index) const noexcept -> std::uint8_t
     {
       index = (index + this->internal_difference) % enmach::ETW.size();
       index = RotorTag::rvalue[index];
@@ -87,7 +87,7 @@ namespace enmach
       return index;
     }
 
-    [[nodiscard]] constexpr auto increment(const bool condition, const bool mask) -> bool
+    [[nodiscard]] constexpr auto increment(const bool condition, const bool mask) noexcept -> bool
     {
       const bool result = RotorTag::turn((this->internal_difference + this->ringstellung_) % ETW.size());
       if constexpr (!std::is_same_v<RotorTag, enmach::rotor_tags::GAMMA> && !std::is_same_v<RotorTag, enmach::rotor_tags::BETA>)
@@ -116,7 +116,7 @@ namespace enmach
     }
 
   private:
-    constexpr auto setInternalDifference() -> void { this->internal_difference = (this->grundstellung_ + enmach::ETW.size() - this->ringstellung_) % enmach::ETW.size(); }
+    constexpr auto setInternalDifference() noexcept -> void { this->internal_difference = (this->grundstellung_ + enmach::ETW.size() - this->ringstellung_) % enmach::ETW.size(); }
 
     std::uint8_t grundstellung_{};
     std::uint8_t ringstellung_{};

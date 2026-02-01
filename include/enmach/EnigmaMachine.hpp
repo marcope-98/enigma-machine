@@ -27,7 +27,7 @@ namespace enmach
     static_assert((Config::Rotors::template is_in_set<RotorTags>() && ...));
     static_assert((Config::Reflectors::template is_in_set<ReflectorTag>()));
 
-    auto increment() -> void { increment_rotors(this->rotors); }
+    auto increment() noexcept -> void { increment_rotors(this->rotors); }
 
     template<class... Args>
     constexpr auto setRingstellung(Args &&...args) -> void
@@ -61,24 +61,23 @@ namespace enmach
 
   private:
     std::tuple<Rotor<RotorTags>...> rotors;
-    Reflector<ReflectorTag> reflector{};
-    Plugboard               plugboard{};
+    Reflector<ReflectorTag>         reflector{};
+    Plugboard                       plugboard{};
 
     template<class Tuple, std::size_t... Is>
-    constexpr static auto forward_transformation_impl(Tuple &&t, std::uint8_t index, std::index_sequence<Is...>) -> std::uint8_t
+    constexpr static auto forward_transformation_impl(Tuple &&t, std::uint8_t index, std::index_sequence<Is...>) noexcept -> std::uint8_t
     {
       ((index = std::get<Config::N - 1 - Is>(t).forward(index)), ...);
       return index;
     }
 
     template<class Tuple>
-    constexpr static auto forward_transformation(Tuple &&t, std::uint8_t index) -> std::uint8_t
+    constexpr static auto forward_transformation(Tuple &&t, std::uint8_t index) noexcept -> std::uint8_t
     {
       return forward_transformation_impl(std::forward<Tuple>(t), index, std::make_index_sequence<Config::N>{});
     }
 
     template<class Tuple, std::size_t... Is>
-    constexpr static auto increment_rotors_impl(Tuple &&t, std::index_sequence<Is...>) -> void
     constexpr static auto inverse_transformation_impl(Tuple &&t, std::uint8_t index, std::index_sequence<Is...>) noexcept -> std::uint8_t
     {
       ((index = std::get<Is>(t).inverse(index)), ...);
@@ -91,6 +90,8 @@ namespace enmach
       return inverse_transformation_impl(std::forward<Tuple>(t), index, std::make_index_sequence<Config::N>{});
     }
 
+    template<class Tuple, std::size_t... Is>
+    constexpr static auto increment_rotors_impl(Tuple &&t, std::index_sequence<Is...>) noexcept -> void
     {
       auto           flag{true};
       constexpr bool has_zusatzwalze = (Set<rotor_tags::BETA, rotor_tags::GAMMA>::template is_in_set<RotorTags>() || ...);
@@ -98,7 +99,7 @@ namespace enmach
     }
 
     template<class Tuple>
-    constexpr static auto increment_rotors(Tuple &&t) -> void
+    constexpr static auto increment_rotors(Tuple &&t) noexcept -> void
     {
       increment_rotors_impl(std::forward<Tuple>(t), std::make_index_sequence<Config::N>{});
     }
