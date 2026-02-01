@@ -28,7 +28,7 @@ target_include_directories(${ENMACH_LIBRARY_NAME}
 target_compile_options(${ENMACH_LIBRARY_NAME}
   INTERFACE
   $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
-  -Wall -Wextra -Werror -Wpedantic -Wconversion -O2>
+  -Wall -Wextra -Werror -Wpedantic -Wconversion -Os>
 )
 
 enable_testing()
