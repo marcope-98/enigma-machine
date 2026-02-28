@@ -22,24 +22,24 @@ namespace enmach
   struct EnigmaMachine
   {
   public:
-    static_assert((sizeof...(RotorTags)) == Config::N);
-    static_assert(is_unique<RotorTags...>);
-    static_assert((Config::Rotors::template is_in_set<RotorTags>() && ...));
-    static_assert((Config::Reflectors::template is_in_set<ReflectorTag>()));
+    static_assert((sizeof...(RotorTags)) == Config::N, "[ERROR] Expected number of rotors and obtained number of rotors mismatch.");
+    static_assert(is_unique<RotorTags...>, "[ERROR] Rotor types must be unique.");
+    static_assert((Config::Rotors::template is_in_set<RotorTags>() && ...), "[ERROR] All rotors must belong to the allowed set for this machine.");
+    static_assert((Config::Reflectors::template is_in_set<ReflectorTag>()), "[ERROR] Reflector must belong to the allowed set for this machine.");
 
     auto increment() noexcept -> void { increment_rotors(this->rotors); }
 
     template<class... Args>
     constexpr auto setRingstellung(Args &&...args) -> void
     {
-      static_assert(Config::N == (sizeof...(Args)));
+      static_assert(Config::N == (sizeof...(Args)), "[ERROR] Input arguments do not match the number of specified rotors");
       assign_ringstellung(this->rotors, std::make_tuple(args...));
     }
 
     template<class... Args>
     constexpr auto setGrundstellung(Args &&...args) -> void
     {
-      static_assert(Config::N == (sizeof...(Args)));
+      static_assert(Config::N == (sizeof...(Args)), "[ERROR] Input arguments do not match the number of specified rotors");
       assign_grundstellung(this->rotors, std::make_tuple(args...));
     }
 
