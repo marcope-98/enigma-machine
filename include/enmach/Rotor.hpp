@@ -73,25 +73,25 @@ namespace enmach
   public:
     [[nodiscard]] constexpr auto forward(std::uint8_t index) const noexcept -> std::uint8_t
     {
-      index = (index + this->internal_difference) % enmach::ETW.size();
+      index = (index + this->effective_offset) % enmach::ETW.size();
       index = RotorTag::fvalue[index];
-      index = (index + enmach::ETW.size() - this->internal_difference) % enmach::ETW.size();
+      index = (index + enmach::ETW.size() - this->effective_offset) % enmach::ETW.size();
       return index;
     }
 
     [[nodiscard]] constexpr auto inverse(std::uint8_t index) const noexcept -> std::uint8_t
     {
-      index = (index + this->internal_difference) % enmach::ETW.size();
+      index = (index + this->effective_offset) % enmach::ETW.size();
       index = RotorTag::rvalue[index];
-      index = (index + enmach::ETW.size() - this->internal_difference) % enmach::ETW.size();
+      index = (index + enmach::ETW.size() - this->effective_offset) % enmach::ETW.size();
       return index;
     }
 
-    [[nodiscard]] constexpr auto increment(const bool condition, const bool mask) noexcept -> bool
+    [[nodiscard]] constexpr auto increment(const bool should_step, const bool can_propagate) noexcept -> bool
     {
-      const bool result = RotorTag::turn((this->internal_difference + this->ringstellung_) % ETW.size());
+      const bool result = RotorTag::turn((this->effective_offset + this->ringstellung_) % ETW.size());
       if constexpr (!std::is_same_v<RotorTag, enmach::rotor_tags::GAMMA> && !std::is_same_v<RotorTag, enmach::rotor_tags::BETA>)
-        this->internal_difference = (this->internal_difference + static_cast<std::uint8_t>(condition || (result && mask))) % enmach::ETW.size();
+        this->effective_offset = (this->effective_offset + static_cast<std::uint8_t>(should_step || (result && can_propagate))) % enmach::ETW.size();
       return result;
     }
 
@@ -116,11 +116,11 @@ namespace enmach
     }
 
   private:
-    constexpr auto setInternalDifference() noexcept -> void { this->internal_difference = (this->grundstellung_ + enmach::ETW.size() - this->ringstellung_) % enmach::ETW.size(); }
+    constexpr auto setInternalDifference() noexcept -> void { this->effective_offset = (this->grundstellung_ + enmach::ETW.size() - this->ringstellung_) % enmach::ETW.size(); }
 
     std::uint8_t grundstellung_{};
     std::uint8_t ringstellung_{};
-    std::uint8_t internal_difference{};
+    std::uint8_t effective_offset{};
   };
 } // namespace enmach
 #endif // ENMACH_ROTOR_HPP_

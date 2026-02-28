@@ -33,7 +33,7 @@ namespace enmach
       EnigmaMachine<
           EnigmaMachineConfiguration<
               Set<I, II, III, IV, V, VI, VII, VIII, BETA, GAMMA>,
-              Set<ukw::b, ukw::c>,
+              Set<ukw::ThinB, ukw::ThinC>,
               4>,
           Plugboard, Reflector, Zusatzwalze, Rotors...>>;
 } // namespace enmach

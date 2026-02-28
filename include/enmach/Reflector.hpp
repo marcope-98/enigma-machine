@@ -12,11 +12,11 @@
 namespace enmach::ukw
 {
   // clang-format off
-  struct A  { constexpr static std::array<std::uint8_t, 27> value = { EJMZALYXVBWFCRQUONTSPIKHGD }; };
-  struct B  { constexpr static std::array<std::uint8_t, 27> value = { YRUHQSLDPXNGOKMIEBFZCWVJAT }; }; 
-  struct C  { constexpr static std::array<std::uint8_t, 27> value = { FVPJIAOYEDRZXWGCTKUQSBNMHL }; }; 
-  struct b  { constexpr static std::array<std::uint8_t, 27> value = { ENKQAUYWJICOPBLMDXZVFTHRGS }; }; 
-  struct c  { constexpr static std::array<std::uint8_t, 27> value = { RDOBJNTKVEHMLFCWZAXGYIPSUQ }; }; 
+  struct A      { constexpr static std::array<std::uint8_t, 27> value = { EJMZALYXVBWFCRQUONTSPIKHGD }; };
+  struct B      { constexpr static std::array<std::uint8_t, 27> value = { YRUHQSLDPXNGOKMIEBFZCWVJAT }; }; 
+  struct C      { constexpr static std::array<std::uint8_t, 27> value = { FVPJIAOYEDRZXWGCTKUQSBNMHL }; }; 
+  struct ThinB  { constexpr static std::array<std::uint8_t, 27> value = { ENKQAUYWJICOPBLMDXZVFTHRGS }; }; 
+  struct ThinC  { constexpr static std::array<std::uint8_t, 27> value = { RDOBJNTKVEHMLFCWZAXGYIPSUQ }; }; 
   // clang-format on 
 } // namespace enmach::ukw
 
