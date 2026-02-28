@@ -3,20 +3,20 @@
 
 #include <array>
 
-#define EJMZALYXVBWFCRQUONTSPIKHGD "\x04\x09\x0c\x19\x00\x0b\x18\x17\x15\x01\x16\x05\x02\x11\x10\x14\x0e\x0d\x13\x12\x0f\x08\x0a\x07\x06\x03"
-#define YRUHQSLDPXNGOKMIEBFZCWVJAT "\x18\x11\x14\x07\x10\x12\x0b\x03\x0f\x17\x0d\x06\x0e\x0a\x0c\x08\x04\x01\x05\x19\x02\x16\x15\x09\x00\x13"
-#define FVPJIAOYEDRZXWGCTKUQSBNMHL "\x05\x15\x0f\x09\x08\x00\x0e\x18\x04\x03\x11\x19\x17\x16\x06\x02\x13\x0a\x14\x10\x12\x01\x0d\x0c\x07\x0b"
-#define ENKQAUYWJICOPBLMDXZVFTHRGS "\x04\x0d\x0a\x10\x00\x14\x18\x16\x09\x08\x02\x0e\x0f\x01\x0b\x0c\x03\x17\x19\x15\x05\x13\x07\x11\x06\x12"
-#define RDOBJNTKVEHMLFCWZAXGYIPSUQ "\x11\x03\x0e\x01\x09\x0d\x13\x0a\x15\x04\x07\x0c\x0b\x05\x02\x16\x19\x00\x17\x06\x18\x08\x0f\x12\x14\x10"
+#define EJMZALYXVBWFCRQUONTSPIKHGD { 0x04, 0x09, 0x0c, 0x19, 0x00, 0x0b, 0x18, 0x17, 0x15, 0x01, 0x16, 0x05, 0x02, 0x11, 0x10, 0x14, 0x0e, 0x0d, 0x13, 0x12, 0x0f, 0x08, 0x0a, 0x07, 0x06, 0x03 }
+#define YRUHQSLDPXNGOKMIEBFZCWVJAT { 0x18, 0x11, 0x14, 0x07, 0x10, 0x12, 0x0b, 0x03, 0x0f, 0x17, 0x0d, 0x06, 0x0e, 0x0a, 0x0c, 0x08, 0x04, 0x01, 0x05, 0x19, 0x02, 0x16, 0x15, 0x09, 0x00, 0x13 }
+#define FVPJIAOYEDRZXWGCTKUQSBNMHL { 0x05, 0x15, 0x0f, 0x09, 0x08, 0x00, 0x0e, 0x18, 0x04, 0x03, 0x11, 0x19, 0x17, 0x16, 0x06, 0x02, 0x13, 0x0a, 0x14, 0x10, 0x12, 0x01, 0x0d, 0x0c, 0x07, 0x0b }
+#define ENKQAUYWJICOPBLMDXZVFTHRGS { 0x04, 0x0d, 0x0a, 0x10, 0x00, 0x14, 0x18, 0x16, 0x09, 0x08, 0x02, 0x0e, 0x0f, 0x01, 0x0b, 0x0c, 0x03, 0x17, 0x19, 0x15, 0x05, 0x13, 0x07, 0x11, 0x06, 0x12 }
+#define RDOBJNTKVEHMLFCWZAXGYIPSUQ { 0x11, 0x03, 0x0e, 0x01, 0x09, 0x0d, 0x13, 0x0a, 0x15, 0x04, 0x07, 0x0c, 0x0b, 0x05, 0x02, 0x16, 0x19, 0x00, 0x17, 0x06, 0x18, 0x08, 0x0f, 0x12, 0x14, 0x10 }
 
 namespace enmach::ukw
 {
   // clang-format off
-  struct A      { constexpr static std::array<std::uint8_t, 27> value = { EJMZALYXVBWFCRQUONTSPIKHGD }; };
-  struct B      { constexpr static std::array<std::uint8_t, 27> value = { YRUHQSLDPXNGOKMIEBFZCWVJAT }; }; 
-  struct C      { constexpr static std::array<std::uint8_t, 27> value = { FVPJIAOYEDRZXWGCTKUQSBNMHL }; }; 
-  struct ThinB  { constexpr static std::array<std::uint8_t, 27> value = { ENKQAUYWJICOPBLMDXZVFTHRGS }; }; 
-  struct ThinC  { constexpr static std::array<std::uint8_t, 27> value = { RDOBJNTKVEHMLFCWZAXGYIPSUQ }; }; 
+  struct A      { constexpr static std::array<std::uint8_t, 26> value = EJMZALYXVBWFCRQUONTSPIKHGD; };
+  struct B      { constexpr static std::array<std::uint8_t, 26> value = YRUHQSLDPXNGOKMIEBFZCWVJAT; }; 
+  struct C      { constexpr static std::array<std::uint8_t, 26> value = FVPJIAOYEDRZXWGCTKUQSBNMHL; }; 
+  struct ThinB  { constexpr static std::array<std::uint8_t, 26> value = ENKQAUYWJICOPBLMDXZVFTHRGS; }; 
+  struct ThinC  { constexpr static std::array<std::uint8_t, 26> value = RDOBJNTKVEHMLFCWZAXGYIPSUQ; }; 
   // clang-format on 
 } // namespace enmach::ukw
 
